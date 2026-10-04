@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lomba Tracker Mr Niknos</title>
+    <meta name="theme-color" content="#f5f6fa" />
+    <style>
+      :root {
+        --bg: #f5f6fa;
+        --card: #fff;
+        --ink: #1b2030;
+        --soft: #687086;
+        --line: #e2e5ee;
+        --main: #2f55d4;
+        --main-soft: #e7ecfc;
+        --ok: #0f7a5a;
+        --ok-soft: #e3f3ec;
+        --warn: #b4540a;
+        --warn-soft: #fdeedd;
+        --bad: #b3261e;
+        --bad-soft: #fbe9e7;
+        --r: 14px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        padding-bottom: 96px;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      header {
+        padding: 20px 0 12px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      h1 {
+        font-size: 1.25rem;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      h2 {
+        font-size: 1rem;
+        margin: 0;
+      }
+      h3 {
+        font-size: 0.8rem;
+        margin: 18px 0 8px;
+        color: var(--soft);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .muted {
+        color: var(--soft);
+        font-size: 0.875rem;
+      }
+      select,
+      input,
+      button,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        min-height: 46px;
+      }
+      select:focus,
+      input:focus,
+      button:focus-visible {
+        outline: 2px solid var(--main);
+        outline-offset: 2px;
+      }
+      .who {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: var(--soft);
+      }
+      .who select {
+        width: auto;
+        min-height: 40px;
+        padding: 6px 10px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .stat {
+        margin: 0;
+      }
+      .stat .n {
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        font-variant-numeric: tabular-nums;
+      }
+      .next {
+        background: var(--main);
+        color: #fff;
+        border: 0;
+        margin-top: 12px;
+      }
+      .next .muted {
+        color: #fff;
+        opacity: 0.85;
+      }
+      .next .big {
+        font-size: 1.25rem;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin: 16px 0 4px;
+      }
+      .tabs button {
+        flex: 1;
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 999px;
+        padding: 9px 16px;
+        cursor: pointer;
+        color: var(--soft);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .tabs button[aria-selected="true"] {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+      .lhead {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .lhead h2 {
+        overflow-wrap: anywhere;
+      }
+      .days {
+        font-weight: 700;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        padding: 3px 10px;
+        border-radius: 999px;
+      }
+      .d-ok {
+        background: var(--main-soft);
+        color: var(--main);
+      }
+      .d-soon {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .d-late {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .d-done {
+        background: #eef0f4;
+        color: var(--soft);
+      }
+      .chip {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .ok {
+        background: var(--ok-soft);
+        color: var(--ok);
+      }
+      .due {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        margin: 14px 0 6px;
+      }
+      .steps button {
+        border: 0;
+        background: #e9ecf3;
+        color: var(--soft);
+        padding: 8px 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        min-height: 40px;
+        border-radius: 6px;
+        line-height: 1.2;
+      }
+      .steps button.on {
+        background: var(--main);
+        color: #fff;
+      }
+      .steps button.now {
+        outline: 2px solid var(--ink);
+        outline-offset: 1px;
+      }
+      .foot {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        min-height: 46px;
+        background: var(--main);
+        color: #fff;
+      }
+      .btn.alt {
+        background: #fff;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .btn.sm {
+        min-height: 36px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+      .btn.ghost {
+        background: none;
+        color: var(--soft);
+        padding: 6px 8px;
+        min-height: 32px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-decoration: underline;
+      }
+      .bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(245, 246, 250, 0.94);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--line);
+        padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+      }
+      .bar .btn {
+        width: 100%;
+      }
+      dialog {
+        border: 0;
+        border-radius: 18px;
+        padding: 0;
+        width: min(480px, calc(100vw - 24px));
+        max-height: calc(100dvh - 24px);
+        color: var(--ink);
+      }
+      dialog::backdrop {
+        background: rgba(20, 25, 40, 0.45);
+      }
+      dialog form {
+        padding: 20px;
+        display: grid;
+        gap: 12px;
+      }
+      label {
+        display: grid;
+        gap: 5px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        min-height: 46px;
+        cursor: pointer;
+      }
+      .check input {
+        width: 20px;
+        height: 20px;
+        min-height: 0;
+        padding: 0;
+        accent-color: var(--main);
+        flex: none;
+      }
+      .acts {
+        display: flex;
+        gap: 10px;
+        margin-top: 4px;
+      }
+      .acts .btn {
+        flex: 1;
+      }
+      .note {
+        background: var(--warn-soft);
+        color: #6b3305;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.875rem;
+        margin-bottom: 12px;
+      }
+      .empty {
+        color: var(--soft);
+        text-align: center;
+        padding: 18px 0;
+        font-size: 0.9rem;
+      }
+      .log {
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+      }
+      .log:first-child {
+        border-top: 0;
+      }
+      .log .t {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: 92px;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 0.875rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        max-width: calc(100vw - 32px);
+        text-align: center;
+        z-index: 9;
+      }
+      #toast.on {
+        opacity: 1;
+      }
+      .hide {
+        display: none;
+      }
+      @media (max-width: 480px) {
+        .grid {
+          gap: 8px;
+        }
+        .card.stat {
+          padding: 12px;
+        }
+        .stat .n {
+          font-size: 1.25rem;
+        }
+        .stat .muted {
+          font-size: 0.78rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Lomba Tracker Mr Niknos</h1>
+          <div class="muted" id="sync">Memuat data...</div>
+        </div>
+        <label class="who" style="font-weight: 400"
+          >Saya
+          <select id="me" aria-label="Pilih nama kamu"></select>
+        </label>
+      </header>
+
+      <div id="setup" class="note hide">
+        Aplikasi belum tersambung ke Google Sheets. Isi <b>API_URL</b> di bagian
+        atas skrip pada index.html dengan URL Web app dari Apps Script.
+      </div>
+
+      <div id="ringkas"></div>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="lomba" aria-selected="true">
+          Daftar lomba
+        </button>
+        <button role="tab" data-tab="riwayat" aria-selected="false">
+          Riwayat
+        </button>
+      </nav>
+
+      <main id="view"></main>
+    </div>
+
+    <div class="bar">
+      <div class="wrap">
+        <button class="btn" id="bTambah">+ Tambah lomba</button>
+      </div>
+    </div>
+
+    <dialog id="dLomba">
+      <form method="dialog" id="fLomba">
+        <h2 id="dJudul">Tambah lomba</h2>
+        <input type="hidden" name="id" />
+        <label
+          >Nama lomba<input
+            name="nama"
+            maxlength="100"
+            required
+            placeholder="Contoh: RECYTAX 2026"
+        /></label>
+        <label
+          >Deadline pengumpulan karya<input
+            name="deadline"
+            type="date"
+            required
+        /></label>
+        <label class="check"
+          ><input type="checkbox" name="registrasi" /> Sudah registrasi</label
+        >
+        <label
+          >Catatan<input
+            name="catatan"
+            maxlength="200"
+            placeholder="Opsional, misalnya tautan atau subtema"
+        /></label>
+        <div class="acts">
+          <button type="button" class="btn alt" id="bBatal">Batal</button
+          ><button class="btn" value="ok">Simpan</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" role="status"></div>
+
+    <script>
+      /* ====== ISI INI dengan URL Web app Apps Script (berakhiran /exec) ====== */
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbx8jr2TFnUDN4oKbUi9JMaHKoTzDyNz0CJ9ExMt3M8NkLfbFKi6bYt5mMywYiPRxcRU/exec";
+      /* ====================================================================== */
+
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const store = {
+        get: (k) => {
+          try {
+            return localStorage.getItem(k);
+          } catch {
+            return null;
+          }
+        },
+        set: (k, v) => {
+          try {
+            localStorage.setItem(k, v);
+          } catch {}
+        },
+      };
+
+      let D = {
+        anggota: ["Akbar", "Ocid", "Psan"],
+        progres: ["Belum mulai", "Dikerjakan", "Terkumpul", "Selesai"],
+        lomba: [],
+        riwayat: [],
+      };
+      let tab = "lomba",
+        busy = false;
+
+      function toast(m) {
+        const t = $("#toast");
+        t.textContent = m;
+        t.classList.add("on");
+        clearTimeout(toast.t);
+        toast.t = setTimeout(() => t.classList.remove("on"), 2800);
+      }
+      const me = () => $("#me").value;
+
+      async function api(body) {
+        if (!API_URL) {
+          $("#setup").classList.remove("hide");
+          $("#sync").textContent = "Belum tersambung";
+          return false;
+        }
+        if (busy) return false;
+        busy = true;
+        $("#sync").textContent = body ? "Menyimpan..." : "Memuat data...";
+        try {
+          // text/plain supaya browser tidak mengirim preflight, yang tidak dilayani Apps Script
+          const r = await fetch(
+            API_URL,
+            body
+              ? {
+                  method: "POST",
+                  headers: { "Content-Type": "text/plain;charset=utf-8" },
+                  body: JSON.stringify({ ...body, oleh: me() }),
+                }
+              : {},
+          );
+          const j = await r.json();
+          if (!j.ok) throw new Error(j.error || "Gagal");
+          D = j.data;
+          $("#sync").textContent =
+            "Tersinkron " +
+            new Date().toLocaleTimeString("id-ID", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          render();
+          return true;
+        } catch (e) {
+          $("#sync").textContent = "Gagal tersambung";
+          toast(
+            e.message === "Failed to fetch"
+              ? "Tidak bisa menghubungi server. Cek koneksi atau URL."
+              : e.message,
+          );
+          return false;
+        } finally {
+          busy = false;
+        }
+      }
+
+      /* ---------- Tanggal ---------- */
+      const tglDl = (s) => {
+        const [y, m, d] = String(s).split("-").map(Number);
+        return new Date(y, m - 1, d);
+      };
+      const fmtDl = (s) => {
+        const d = tglDl(s);
+        return isNaN(d)
+          ? "Tanggal belum diisi"
+          : d.toLocaleDateString("id-ID", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+      };
+      const sisa = (s) => {
+        const n = new Date();
+        return Math.round(
+          (tglDl(s) - new Date(n.getFullYear(), n.getMonth(), n.getDate())) /
+            864e5,
+        );
+      };
+      const fmtWaktu = (s) => {
+        const d = new Date(s);
+        return isNaN(d)
+          ? ""
+          : d.toLocaleString("id-ID", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+      };
+
+      // Lomba dianggap beres dari sisi deadline bila karyanya sudah terkumpul
+      const beres = (l) => D.progres.indexOf(l.progres) >= 2;
+      const selesai = (l) => l.progres === "Selesai";
+
+      function hitung(l) {
+        if (beres(l))
+          return [
+            "d-done",
+            l.progres === "Selesai" ? "Selesai" : "Sudah terkumpul",
+          ];
+        const n = sisa(l.deadline);
+        if (isNaN(n)) return ["d-done", "Tanpa tanggal"];
+        if (n < 0) return ["d-late", `Lewat ${-n} hari`];
+        if (n === 0) return ["d-late", "Hari ini"];
+        if (n === 1) return ["d-soon", "Besok"];
+        return [n <= 7 ? "d-soon" : "d-ok", `${n} hari lagi`];
+      }
+
+      /* ---------- Tampilan ---------- */
+      function vRingkas() {
+        const jalan = D.lomba.filter((l) => !selesai(l));
+        const belumReg = jalan.filter((l) => l.registrasi !== "Sudah");
+        const antre = jalan
+          .filter((l) => !beres(l) && !isNaN(sisa(l.deadline)))
+          .sort((a, b) => tglDl(a.deadline) - tglDl(b.deadline));
+        const dkt = antre[0];
+        return (
+          `<div class="grid">
+    <div class="card stat"><div class="muted">Sedang diikuti</div><div class="n">${jalan.length}</div></div>
+    <div class="card stat"><div class="muted">Belum registrasi</div><div class="n" style="color:${belumReg.length ? "var(--warn)" : "inherit"}">${belumReg.length}</div></div>
+    <div class="card stat"><div class="muted">Sudah selesai</div><div class="n">${D.lomba.length - jalan.length}</div></div>
+  </div>` +
+          (dkt
+            ? `<div class="card next"><div class="muted">Deadline terdekat</div>
+    <div class="big">${esc(dkt.nama)}</div><div>${fmtDl(dkt.deadline)} · ${hitung(dkt)[1].toLowerCase()}</div></div>`
+            : "")
+        );
+      }
+
+      function kartu(l) {
+        const [kls, teks] = hitung(l);
+        const idx = D.progres.indexOf(l.progres);
+        const reg = l.registrasi === "Sudah";
+        return `<div class="card">
+    <div class="lhead"><h2>${esc(l.nama)}</h2><span class="days ${kls}">${teks}</span></div>
+    <div class="muted">Deadline ${fmtDl(l.deadline)}</div>
+    ${l.catatan ? `<div class="muted" style="overflow-wrap:anywhere">${esc(l.catatan)}</div>` : ""}
+    <div class="steps" role="group" aria-label="Progres ${esc(l.nama)}">
+      ${D.progres.map((p, i) => `<button class="${i <= idx ? "on" : ""} ${i === idx ? "now" : ""}" data-progres="${esc(p)}" data-id="${esc(l.id)}" aria-pressed="${i === idx}">${esc(p)}</button>`).join("")}
+    </div>
+    <div class="foot">
+      <span class="chip ${reg ? "ok" : "due"}">${reg ? "Sudah registrasi" : "Belum registrasi"}</span>
+      <button class="btn alt sm" data-reg="${reg ? 0 : 1}" data-id="${esc(l.id)}">${reg ? "Batalkan registrasi" : "Tandai sudah registrasi"}</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" data-edit="${esc(l.id)}">Ubah</button>
+      <button class="btn ghost" data-del="${esc(l.id)}">Hapus</button>
+    </div>
+    <div class="muted" style="margin-top:6px;font-size:.78rem">Ditambahkan ${esc(l.dibuat_oleh)}</div>
+  </div>`;
+      }
+
+      function vLomba() {
+        if (!D.lomba.length)
+          return '<div class="card empty">Belum ada lomba. Tekan Tambah lomba di bawah untuk mulai mencatat.</div>';
+        const urut = (a, b) => tglDl(a.deadline) - tglDl(b.deadline) || 0;
+        const perlu = D.lomba.filter((l) => !beres(l)).sort(urut);
+        const tunggu = D.lomba
+          .filter((l) => beres(l) && !selesai(l))
+          .sort(urut);
+        const arsip = D.lomba.filter(selesai).sort((a, b) => urut(b, a));
+        const blok = (judul, arr) =>
+          arr.length
+            ? `<h3>${judul} (${arr.length})</h3>` + arr.map(kartu).join("")
+            : "";
+        return (
+          blok("Perlu dikerjakan", perlu) +
+          blok("Sudah terkumpul, menunggu hasil", tunggu) +
+          blok("Selesai", arsip)
+        );
+      }
+
+      function vRiwayat() {
+        return `<div class="card" style="margin-top:12px">${
+          D.riwayat
+            .map(
+              (r) => `<div class="log">
+    <div class="t">${esc(r.oleh)} ${esc(String(r.aksi).toLowerCase())} ${esc(r.lomba)}</div>
+    ${r.rincian ? `<div class="muted" style="overflow-wrap:anywhere">${esc(r.rincian)}</div>` : ""}
+    <div class="muted" style="font-size:.78rem">${fmtWaktu(r.waktu)}</div></div>`,
+            )
+            .join("") || '<div class="empty">Belum ada riwayat.</div>'
+        }</div>`;
+      }
+
+      function render() {
+        $("#ringkas").innerHTML = vRingkas();
+        $("#view").innerHTML = tab === "lomba" ? vLomba() : vRiwayat();
+      }
+
+      /* ---------- Interaksi ---------- */
+      document.querySelectorAll(".tabs button").forEach(
+        (b) =>
+          (b.onclick = () => {
+            tab = b.dataset.tab;
+            document
+              .querySelectorAll(".tabs button")
+              .forEach((x) => x.setAttribute("aria-selected", x === b));
+            render();
+          }),
+      );
+
+      function buka(l) {
+        const f = $("#fLomba");
+        f.reset();
+        $("#dJudul").textContent = l ? "Ubah lomba" : "Tambah lomba";
+        f.id.value = l ? l.id : "";
+        if (l) {
+          f.nama.value = l.nama;
+          f.deadline.value = l.deadline;
+          f.registrasi.checked = l.registrasi === "Sudah";
+          f.catatan.value = l.catatan;
+        }
+        $("#dLomba").showModal();
+      }
+      $("#bTambah").onclick = () => buka(null);
+      $("#bBatal").onclick = () => $("#dLomba").close();
+
+      $("#fLomba").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        const isi = {
+          nama: f.nama.value,
+          deadline: f.deadline.value,
+          registrasi: f.registrasi.checked,
+          catatan: f.catatan.value,
+        };
+        const ok = await api(
+          f.id.value
+            ? { action: "ubah", id: f.id.value, ...isi }
+            : { action: "tambah", ...isi },
+        );
+        if (ok) {
+          $("#dLomba").close();
+          toast(f.id.value ? "Perubahan tersimpan" : "Lomba ditambahkan");
+        }
+      });
+
+      $("#view").addEventListener("click", async (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        const d = b.dataset;
+        if (d.progres) {
+          const l = D.lomba.find((x) => x.id === d.id);
+          if (
+            l &&
+            l.progres !== d.progres &&
+            (await api({ action: "ubah", id: d.id, progres: d.progres }))
+          )
+            toast("Progres diperbarui");
+        } else if (d.reg) {
+          if (
+            await api({ action: "ubah", id: d.id, registrasi: d.reg === "1" })
+          )
+            toast("Status registrasi diperbarui");
+        } else if (d.edit) {
+          buka(D.lomba.find((x) => x.id === d.edit));
+        } else if (d.del) {
+          if (d.sure) {
+            if (await api({ action: "hapus", id: d.del }))
+              toast("Lomba dihapus");
+          } else {
+            d.sure = 1;
+            b.textContent = "Tekan lagi untuk hapus";
+            b.style.color = "var(--bad)";
+          }
+        }
+      });
+
+      /* ---------- Mulai ---------- */
+      $("#me").innerHTML = D.anggota
+        .map((n) => `<option>${n}</option>`)
+        .join("");
+      if (D.anggota.includes(store.get("niknos_me")))
+        $("#me").value = store.get("niknos_me");
+      $("#me").onchange = () => store.set("niknos_me", me());
+      render();
+      api();
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && !$("#dLomba").open) api();
+      });
+    </script>
+  </body>
+</html>

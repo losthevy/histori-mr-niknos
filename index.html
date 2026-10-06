@@ -400,6 +400,52 @@
           font-size: 0.78rem;
         }
       }
+    
+      .hbtn{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+      .tabs button{padding:9px 4px;font-size:.82rem}
+      .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+      .tools input{flex:1 1 100%}
+      .tools select{flex:1 1 30%;min-width:0;font-size:.85rem}
+      .star{color:#e0a100;margin-right:4px}
+      .tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+      .tg{background:var(--main-soft);color:var(--main);text-decoration:none}
+      .cl{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+      .clh{display:flex;align-items:center;gap:10px}
+      .pg{flex:1;height:6px;border-radius:9px;background:var(--line);overflow:hidden}
+      .pg i{display:block;height:100%;background:var(--ok)}
+      .ci{display:flex;align-items:center;gap:6px}
+      .ck{display:flex;flex:1;align-items:center;gap:8px;font-weight:500;padding:6px 0;cursor:pointer}
+      .ck input{width:18px;height:18px;min-height:0;padding:0;flex:none;accent-color:var(--main)}
+      .strk{text-decoration:line-through;color:var(--soft)}
+      .x{border:0;background:none;color:var(--soft);font-size:1.2rem;cursor:pointer;min-width:32px;min-height:32px}
+      .cadd{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+      .cadd input{flex:1;min-height:36px;padding:6px 10px;font-size:.9rem}
+      .warn-card{background:var(--warn-soft);border-color:transparent;margin-top:12px}
+      .dot{display:inline-block;width:7px;height:7px;border-radius:50%}
+      .dot.d-ok{background:var(--main)}.dot.d-soon{background:var(--warn)}.dot.d-late{background:var(--bad)}.dot.d-done{background:var(--soft)}
+      .tl{position:relative;margin:12px 0 0 6px;padding-left:22px;border-left:2px solid var(--line)}
+      .tl-m{font-size:.8rem;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin:18px 0 8px}
+      .tl-i{position:relative;margin-bottom:10px}
+      .tl-i .card{margin:0}
+      .tl-i .dot{position:absolute;left:-30px;top:18px;width:12px;height:12px;box-shadow:0 0 0 3px var(--bg)}
+      .tl-i.dim{opacity:.55}
+      .tl-now{position:relative;margin:14px 0}
+      .tl-now:before{content:"";position:absolute;left:-29px;top:50%;width:10px;height:10px;border-radius:50%;background:var(--ink);transform:translateY(-50%)}
+      .tl-now span{display:block;border-top:2px solid var(--ink);padding-top:3px;font-size:.78rem;font-weight:700}
+      .lnk{border:0;background:none;padding:0;text-align:left;font-weight:700;font-size:1rem;cursor:pointer;overflow-wrap:anywhere;color:inherit}
+      .calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+      .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+      .cg small{color:var(--soft);font-weight:600}
+      .cd{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:52px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px}
+      .cd.today{border-color:var(--main);font-weight:700}
+      .cd.sel{background:var(--main);color:#fff}
+      .dots{display:flex;gap:2px;height:7px}
+      [data-theme=dark]{--bg:#12151d;--card:#1b2030;--ink:#e8ebf4;--soft:#9aa3ba;--line:#2b3247;--main:#6f8cff;--main-soft:#232c52;--ok:#4cc79f;--ok-soft:#14342a;--warn:#f0a35c;--warn-soft:#3a2810;--bad:#ff8a80;--bad-soft:#3b1b19}
+      [data-theme=dark] select,[data-theme=dark] input,[data-theme=dark] .tabs button,[data-theme=dark] .btn.alt,[data-theme=dark] dialog{background:var(--card)}
+      [data-theme=dark] .steps button,[data-theme=dark] .d-done{background:#252c40}
+      [data-theme=dark] .bar{background:rgba(18,21,29,.94)}
+      [data-theme=dark] .tabs button[aria-selected="true"],[data-theme=dark] .next,[data-theme=dark] .btn:not(.alt):not(.ghost),[data-theme=dark] .steps button.on{color:#0f1220}
+      [data-theme=dark] .note{color:#f3c99c}
     </style>
   </head>
   <body>
@@ -409,10 +455,10 @@
           <h1>Lomba Tracker Mr Niknos</h1>
           <div class="muted" id="sync">Memuat data...</div>
         </div>
-        <label class="who" style="font-weight: 400"
+        <div class="hbtn"><label class="who" style="font-weight: 400"
           >Saya
           <select id="me" aria-label="Pilih nama kamu"></select>
-        </label>
+        </label><button class="btn alt sm" id="bAlat">Alat</button><button class="btn alt sm" id="bTema" aria-label="Ganti tema">🌙</button></div>
       </header>
 
       <div id="setup" class="note hide">
@@ -423,13 +469,21 @@
       <div id="ringkas"></div>
 
       <nav class="tabs" role="tablist">
-        <button role="tab" data-tab="lomba" aria-selected="true">
-          Daftar lomba
-        </button>
-        <button role="tab" data-tab="riwayat" aria-selected="false">
-          Riwayat
-        </button>
+        <button role="tab" data-tab="lomba" aria-selected="true">Daftar</button>
+        <button role="tab" data-tab="timeline" aria-selected="false">Timeline</button>
+        <button role="tab" data-tab="kalender" aria-selected="false">Kalender</button>
+        <button role="tab" data-tab="riwayat" aria-selected="false">Riwayat</button>
       </nav>
+      <div class="tools" id="tools">
+        <input id="q" type="search" placeholder="Cari nama, catatan, kategori..." aria-label="Cari lomba" />
+        <select id="fSt" aria-label="Filter status">
+          <option value="">Semua status</option><option value="aktif">Perlu dikerjakan</option>
+          <option value="tunggu">Menunggu hasil</option><option value="selesai">Selesai</option>
+          <option value="noreg">Belum registrasi</option>
+        </select>
+        <select id="fPj" aria-label="Filter PJ"></select>
+        <select id="fKat" aria-label="Filter kategori"></select>
+      </div>
 
       <main id="view"></main>
     </div>
@@ -466,11 +520,27 @@
             maxlength="200"
             placeholder="Opsional, misalnya tautan atau subtema"
         /></label>
+        <label>Kategori<select name="kat" id="fmKat"></select></label>
+        <label>Penanggung jawab (PJ)<select name="pj" id="fmPj"></select></label>
+        <label>Tautan guidebook / pendaftaran<input name="link" maxlength="300" placeholder="Opsional, https://..." /></label>
+        <div class="muted" style="font-size:.78rem">Kategori, PJ, tautan, checklist, dan bintang tersimpan di perangkat ini.</div>
         <div class="acts">
           <button type="button" class="btn alt" id="bBatal">Batal</button
           ><button class="btn" value="ok">Simpan</button>
         </div>
       </form>
+    </dialog>
+
+    <dialog id="dAlat">
+      <div style="padding:20px;display:grid;gap:10px">
+        <h2>Alat bantu</h2>
+        <button class="btn alt" id="aIcs">Ekspor deadline ke kalender (.ics)</button>
+        <button class="btn alt" id="aRekap">Salin rekap untuk grup WhatsApp</button>
+        <button class="btn alt" id="aNotif">Aktifkan pengingat deadline</button>
+        <button class="btn alt" id="aBackup">Backup data lokal (.json)</button>
+        <label class="btn alt" style="text-align:center;display:block">Pulihkan backup<input type="file" id="aRestore" accept=".json" hidden /></label>
+        <button class="btn" id="aTutup">Tutup</button>
+      </div>
     </dialog>
 
     <div id="toast" role="status"></div>
@@ -558,6 +628,7 @@
               minute: "2-digit",
             });
           render();
+          if (!body) ingat();
           return true;
         } catch (e) {
           $("#sync").textContent = "Gagal tersambung";
@@ -626,41 +697,85 @@
         return [n <= 7 ? "d-soon" : "d-ok", `${n} hari lagi`];
       }
 
+      /* ---------- Data lokal tambahan ---------- */
+      const KAT = ["Esai", "Karya Tulis Ilmiah", "Poster / Desain", "Video", "Business Plan", "Lainnya"];
+      const TPL = ["Baca guidebook", "Registrasi", "Riset & data", "Draf naskah", "Lampiran / gambar", "Cek plagiasi & format", "Submit"];
+      let M = {};
+      try { M = JSON.parse(store.get("niknos_meta") || "{}"); } catch {}
+      const mt = (id) => M[id] || {};
+      const upM = (id, o) => { M[id] = { ...mt(id), ...o }; store.set("niknos_meta", JSON.stringify(M)); };
+      const urut = (a, b) => tglDl(a.deadline) - tglDl(b.deadline) || 0;
+      const kunci = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      let cal = { y: new Date().getFullYear(), m: new Date().getMonth(), sel: null };
+
+      function saring() {
+        const q = $("#q").value.trim().toLowerCase(), s = $("#fSt").value, p = $("#fPj").value, k = $("#fKat").value;
+        return D.lomba.filter((l) => {
+          const m = mt(l.id);
+          if (q && !(l.nama + " " + l.catatan + " " + (m.kat || "")).toLowerCase().includes(q)) return false;
+          if (p && (p === "-" ? m.pj : m.pj !== p)) return false;
+          if (k && m.kat !== k) return false;
+          if (s === "aktif") return !beres(l);
+          if (s === "tunggu") return beres(l) && !selesai(l);
+          if (s === "selesai") return selesai(l);
+          if (s === "noreg") return l.registrasi !== "Sudah" && !selesai(l);
+          return true;
+        });
+      }
+
+      function urgent() {
+        const r = [];
+        D.lomba.filter((l) => !beres(l)).forEach((l) => {
+          const n = sisa(l.deadline);
+          if (isNaN(n)) return;
+          if (n < 0) r.push({ l, t: `lewat ${-n} hari`, p: 0 });
+          else if (n <= 3) r.push({ l, t: n ? `${n} hari lagi` : "hari ini", p: 1 });
+          else if (l.registrasi !== "Sudah" && n <= 14) r.push({ l, t: "belum registrasi", p: 2 });
+        });
+        return r.sort((a, b) => a.p - b.p);
+      }
+
       /* ---------- Tampilan ---------- */
       function vRingkas() {
         const jalan = D.lomba.filter((l) => !selesai(l));
         const belumReg = jalan.filter((l) => l.registrasi !== "Sudah");
-        const antre = jalan
-          .filter((l) => !beres(l) && !isNaN(sisa(l.deadline)))
-          .sort((a, b) => tglDl(a.deadline) - tglDl(b.deadline));
-        const dkt = antre[0];
+        const dkt = jalan.filter((l) => !beres(l) && !isNaN(sisa(l.deadline))).sort(urut)[0];
+        const u = urgent();
+        const pct = D.lomba.length ? Math.round(((D.lomba.length - jalan.length) / D.lomba.length) * 100) : 0;
         return (
           `<div class="grid">
     <div class="card stat"><div class="muted">Sedang diikuti</div><div class="n">${jalan.length}</div></div>
     <div class="card stat"><div class="muted">Belum registrasi</div><div class="n" style="color:${belumReg.length ? "var(--warn)" : "inherit"}">${belumReg.length}</div></div>
-    <div class="card stat"><div class="muted">Sudah selesai</div><div class="n">${D.lomba.length - jalan.length}</div></div>
+    <div class="card stat"><div class="muted">Sudah selesai</div><div class="n">${D.lomba.length - jalan.length}</div><div class="pg" style="margin-top:6px"><i style="width:${pct}%"></i></div></div>
   </div>` +
-          (dkt
-            ? `<div class="card next"><div class="muted">Deadline terdekat</div>
-    <div class="big">${esc(dkt.nama)}</div><div>${fmtDl(dkt.deadline)} · ${hitung(dkt)[1].toLowerCase()}</div></div>`
-            : "")
+          (dkt ? `<div class="card next"><div class="muted">Deadline terdekat</div>
+    <div class="big">${esc(dkt.nama)}</div><div>${fmtDl(dkt.deadline)} · ${hitung(dkt)[1].toLowerCase()}</div></div>` : "") +
+          (u.length ? `<div class="card warn-card"><b>Perlu perhatian</b>${u.slice(0, 4).map((x) => `<div class="muted">• ${esc(x.l.nama)} — ${x.t}</div>`).join("")}${u.length > 4 ? `<div class="muted">+${u.length - 4} lainnya</div>` : ""}</div>` : "")
         );
       }
 
       function kartu(l) {
         const [kls, teks] = hitung(l);
-        const idx = D.progres.indexOf(l.progres);
-        const reg = l.registrasi === "Sudah";
+        const idx = D.progres.indexOf(l.progres), reg = l.registrasi === "Sudah";
+        const m = mt(l.id), cl = m.cl || [], done = cl.filter((c) => c.d).length;
+        const gc = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Deadline: " + l.nama)}&dates=${ymd(l.deadline)}/${esok(l.deadline)}`;
         return `<div class="card">
-    <div class="lhead"><h2>${esc(l.nama)}</h2><span class="days ${kls}">${teks}</span></div>
+    <div class="lhead"><h2>${m.pin ? '<span class="star">★</span>' : ""}${esc(l.nama)}</h2><span class="days ${kls}">${teks}</span></div>
     <div class="muted">Deadline ${fmtDl(l.deadline)}</div>
+    <div class="tags">${m.kat ? `<span class="chip tg">${esc(m.kat)}</span>` : ""}${m.pj ? `<span class="chip tg">PJ: ${esc(m.pj)}</span>` : ""}${m.link ? `<a class="chip tg" href="${esc(m.link)}" target="_blank" rel="noopener">Buka tautan ↗</a>` : ""}</div>
     ${l.catatan ? `<div class="muted" style="overflow-wrap:anywhere">${esc(l.catatan)}</div>` : ""}
     <div class="steps" role="group" aria-label="Progres ${esc(l.nama)}">
       ${D.progres.map((p, i) => `<button class="${i <= idx ? "on" : ""} ${i === idx ? "now" : ""}" data-progres="${esc(p)}" data-id="${esc(l.id)}" aria-pressed="${i === idx}">${esc(p)}</button>`).join("")}
     </div>
+    <div class="cl"><div class="clh"><span class="muted">Checklist ${done}/${cl.length}</span>${cl.length ? `<div class="pg"><i style="width:${Math.round((done / cl.length) * 100)}%"></i></div>` : ""}</div>
+      ${cl.map((c, i) => `<div class="ci"><label class="ck"><input type="checkbox" data-ck="${i}" data-id="${esc(l.id)}" ${c.d ? "checked" : ""}><span class="${c.d ? "strk" : ""}">${esc(c.t)}</span></label><button class="x" data-cx="${i}" data-id="${esc(l.id)}" aria-label="Hapus langkah">×</button></div>`).join("")}
+      <div class="cadd"><input data-ci="${esc(l.id)}" placeholder="Tambah langkah..." maxlength="80"><button class="btn alt sm" data-ca="${esc(l.id)}">Tambah</button>${cl.length ? "" : `<button class="btn ghost" data-tpl="${esc(l.id)}">Pakai template</button>`}</div>
+    </div>
     <div class="foot">
       <span class="chip ${reg ? "ok" : "due"}">${reg ? "Sudah registrasi" : "Belum registrasi"}</span>
       <button class="btn alt sm" data-reg="${reg ? 0 : 1}" data-id="${esc(l.id)}">${reg ? "Batalkan registrasi" : "Tandai sudah registrasi"}</button>
+      <button class="btn alt sm" data-pin="${esc(l.id)}" aria-label="Bintangi">${m.pin ? "★ Prioritas" : "☆ Prioritas"}</button>
+      <a class="btn ghost" href="${gc}" target="_blank" rel="noopener">+ Google Calendar</a>
       <span style="flex:1"></span>
       <button class="btn ghost" data-edit="${esc(l.id)}">Ubah</button>
       <button class="btn ghost" data-del="${esc(l.id)}">Hapus</button>
@@ -670,66 +785,114 @@
       }
 
       function vLomba() {
-        if (!D.lomba.length)
-          return '<div class="card empty">Belum ada lomba. Tekan Tambah lomba di bawah untuk mulai mencatat.</div>';
-        const urut = (a, b) => tglDl(a.deadline) - tglDl(b.deadline) || 0;
-        const perlu = D.lomba.filter((l) => !beres(l)).sort(urut);
-        const tunggu = D.lomba
-          .filter((l) => beres(l) && !selesai(l))
-          .sort(urut);
-        const arsip = D.lomba.filter(selesai).sort((a, b) => urut(b, a));
-        const blok = (judul, arr) =>
-          arr.length
-            ? `<h3>${judul} (${arr.length})</h3>` + arr.map(kartu).join("")
-            : "";
+        if (!D.lomba.length) return '<div class="card empty">Belum ada lomba. Tekan Tambah lomba di bawah untuk mulai mencatat.</div>';
+        const a = saring();
+        if (!a.length) return '<div class="card empty">Tidak ada lomba yang cocok dengan filter.</div>';
+        const u = (x, y) => (mt(y.id).pin ? 1 : 0) - (mt(x.id).pin ? 1 : 0) || urut(x, y);
+        const blok = (j, arr) => (arr.length ? `<h3>${j} (${arr.length})</h3>` + arr.map(kartu).join("") : "");
         return (
-          blok("Perlu dikerjakan", perlu) +
-          blok("Sudah terkumpul, menunggu hasil", tunggu) +
-          blok("Selesai", arsip)
+          blok("Perlu dikerjakan", a.filter((l) => !beres(l)).sort(u)) +
+          blok("Sudah terkumpul, menunggu hasil", a.filter((l) => beres(l) && !selesai(l)).sort(u)) +
+          blok("Selesai", a.filter(selesai).sort((x, y) => urut(y, x)))
+        );
+      }
+
+      function vTimeline() {
+        const a = saring().filter((l) => !isNaN(sisa(l.deadline))).sort(urut);
+        if (!a.length) return '<div class="card empty" style="margin-top:12px">Belum ada lomba bertanggal yang cocok.</div>';
+        const now = `<div class="tl-now"><span>Hari ini · ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long" })}</span></div>`;
+        let h = '<div class="tl">', bulan = "", ditandai = false;
+        a.forEach((l) => {
+          if (!ditandai && sisa(l.deadline) >= 0) { h += now; ditandai = true; }
+          const d = tglDl(l.deadline), bl = d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+          if (bl !== bulan) { bulan = bl; h += `<div class="tl-m">${bl}</div>`; }
+          const [kls, teks] = hitung(l), m = mt(l.id), cl = m.cl || [];
+          h += `<div class="tl-i ${beres(l) ? "dim" : ""}"><i class="dot ${kls}"></i><div class="card">
+      <div class="lhead"><button class="lnk" data-edit="${esc(l.id)}">${m.pin ? "★ " : ""}${esc(l.nama)}</button><span class="days ${kls}">${teks}</span></div>
+      <div class="muted">${d.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short" })} · ${esc(l.progres)}${m.pj ? " · PJ " + esc(m.pj) : ""}${m.kat ? " · " + esc(m.kat) : ""}${cl.length ? ` · ✓ ${cl.filter((c) => c.d).length}/${cl.length}` : ""}${l.registrasi !== "Sudah" ? " · belum registrasi" : ""}</div></div></div>`;
+        });
+        if (!ditandai) h += now;
+        return h + "</div>";
+      }
+
+      function vKalender() {
+        const by = {};
+        saring().forEach((l) => (by[l.deadline] = by[l.deadline] || []).push(l));
+        const first = new Date(cal.y, cal.m, 1), off = (first.getDay() + 6) % 7, n = new Date(cal.y, cal.m + 1, 0).getDate(), hi = kunci(new Date());
+        let c = "";
+        for (let i = 0; i < off; i++) c += "<span></span>";
+        for (let d = 1; d <= n; d++) {
+          const k = kunci(new Date(cal.y, cal.m, d)), L = by[k] || [];
+          c += `<button class="cd ${k === hi ? "today" : ""} ${k === cal.sel ? "sel" : ""}" data-day="${k}">${d}<span class="dots">${L.slice(0, 3).map((l) => `<i class="dot ${hitung(l)[0]}"></i>`).join("")}</span></button>`;
+        }
+        const pil = (cal.sel && by[cal.sel]) || [];
+        return (
+          `<div class="card" style="margin-top:12px"><div class="calh"><button class="btn alt sm" data-cal="-1" aria-label="Bulan lalu">‹</button><b>${first.toLocaleDateString("id-ID", { month: "long", year: "numeric" })}</b><span><button class="btn alt sm" data-cal="0">Hari ini</button> <button class="btn alt sm" data-cal="1" aria-label="Bulan depan">›</button></span></div>
+      <div class="cg">${["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"].map((x) => `<small>${x}</small>`).join("")}${c}</div></div>` +
+          (cal.sel ? `<h3>${fmtDl(cal.sel)}</h3>` + (pil.map(kartu).join("") || '<div class="card empty">Tidak ada deadline di tanggal ini.</div>') : '<div class="muted" style="text-align:center">Ketuk tanggal untuk melihat lomba.</div>')
         );
       }
 
       function vRiwayat() {
         return `<div class="card" style="margin-top:12px">${
-          D.riwayat
-            .map(
-              (r) => `<div class="log">
+          D.riwayat.map((r) => `<div class="log">
     <div class="t">${esc(r.oleh)} ${esc(String(r.aksi).toLowerCase())} ${esc(r.lomba)}</div>
     ${r.rincian ? `<div class="muted" style="overflow-wrap:anywhere">${esc(r.rincian)}</div>` : ""}
-    <div class="muted" style="font-size:.78rem">${fmtWaktu(r.waktu)}</div></div>`,
-            )
-            .join("") || '<div class="empty">Belum ada riwayat.</div>'
+    <div class="muted" style="font-size:.78rem">${fmtWaktu(r.waktu)}</div></div>`).join("") || '<div class="empty">Belum ada riwayat.</div>'
         }</div>`;
       }
 
+      function isiPj() {
+        const s = $("#fPj"), v = s.value;
+        s.innerHTML = '<option value="">Semua PJ</option>' + D.anggota.map((n) => `<option>${esc(n)}</option>`).join("") + '<option value="-">Tanpa PJ</option>';
+        s.value = v;
+      }
       function render() {
+        isiPj();
         $("#ringkas").innerHTML = vRingkas();
-        $("#view").innerHTML = tab === "lomba" ? vLomba() : vRiwayat();
+        $("#tools").classList.toggle("hide", tab === "riwayat");
+        $("#view").innerHTML = { lomba: vLomba, timeline: vTimeline, kalender: vKalender, riwayat: vRiwayat }[tab]();
+      }
+
+      /* ---------- Utilitas ---------- */
+      const ymd = (s) => String(s).replace(/-/g, "");
+      const esok = (s) => { const d = tglDl(s); d.setDate(d.getDate() + 1); return ymd(kunci(d)); };
+      const ie = (s) => String(s).replace(/[\\,;]/g, "\\$&").replace(/\n/g, "\\n");
+      function unduh(nama, teks, tipe) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([teks], { type: tipe }));
+        a.download = nama; a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      }
+      function ingat() {
+        if (!("Notification" in window) || Notification.permission !== "granted") return;
+        const h = new Date().toDateString(), u = urgent();
+        if (store.get("niknos_ingat") === h || !u.length) return;
+        store.set("niknos_ingat", h);
+        new Notification("Lomba Tracker", { body: u.slice(0, 4).map((x) => `${x.l.nama}: ${x.t}`).join("\n") });
       }
 
       /* ---------- Interaksi ---------- */
       document.querySelectorAll(".tabs button").forEach(
-        (b) =>
-          (b.onclick = () => {
-            tab = b.dataset.tab;
-            document
-              .querySelectorAll(".tabs button")
-              .forEach((x) => x.setAttribute("aria-selected", x === b));
-            render();
-          }),
+        (b) => (b.onclick = () => {
+          tab = b.dataset.tab;
+          document.querySelectorAll(".tabs button").forEach((x) => x.setAttribute("aria-selected", x === b));
+          render();
+        }),
       );
+      ["#q", "#fSt", "#fPj", "#fKat"].forEach((s) => $(s).addEventListener("input", render));
 
       function buka(l) {
-        const f = $("#fLomba");
+        const f = $("#fLomba"), m = l ? mt(l.id) : {};
         f.reset();
         $("#dJudul").textContent = l ? "Ubah lomba" : "Tambah lomba";
+        $("#fmPj").innerHTML = '<option value="">Belum ditentukan</option>' + D.anggota.map((n) => `<option>${esc(n)}</option>`).join("");
         f.id.value = l ? l.id : "";
         if (l) {
-          f.nama.value = l.nama;
-          f.deadline.value = l.deadline;
-          f.registrasi.checked = l.registrasi === "Sudah";
-          f.catatan.value = l.catatan;
+          f.nama.value = l.nama; f.deadline.value = l.deadline;
+          f.registrasi.checked = l.registrasi === "Sudah"; f.catatan.value = l.catatan;
         }
+        f.kat.value = m.kat || ""; f.pj.value = m.pj || ""; f.link.value = m.link || "";
         $("#dLomba").showModal();
       }
       $("#bTambah").onclick = () => buka(null);
@@ -737,23 +900,28 @@
 
       $("#fLomba").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const f = e.target;
-        const isi = {
-          nama: f.nama.value,
-          deadline: f.deadline.value,
-          registrasi: f.registrasi.checked,
-          catatan: f.catatan.value,
-        };
-        const ok = await api(
-          f.id.value
-            ? { action: "ubah", id: f.id.value, ...isi }
-            : { action: "tambah", ...isi },
-        );
+        const f = e.target, sebelum = new Set(D.lomba.map((x) => x.id));
+        const isi = { nama: f.nama.value, deadline: f.deadline.value, registrasi: f.registrasi.checked, catatan: f.catatan.value };
+        const edit = f.id.value;
+        const ok = await api(edit ? { action: "ubah", id: edit, ...isi } : { action: "tambah", ...isi });
         if (ok) {
-          $("#dLomba").close();
-          toast(f.id.value ? "Perubahan tersimpan" : "Lomba ditambahkan");
+          const id = edit || (D.lomba.find((x) => !sebelum.has(x.id)) || {}).id;
+          if (id) {
+            let lk = f.link.value.trim();
+            if (lk && !/^https?:\/\//i.test(lk)) lk = "https://" + lk;
+            upM(id, { kat: f.kat.value, pj: f.pj.value, link: lk });
+          }
+          $("#dLomba").close(); render();
+          toast(edit ? "Perubahan tersimpan" : "Lomba ditambahkan");
         }
       });
+
+      const tambahCl = (id) => {
+        const i = [...document.querySelectorAll("[data-ci]")].find((x) => x.dataset.ci === id);
+        const t = i && i.value.trim();
+        if (!t) return;
+        upM(id, { cl: [...(mt(id).cl || []), { t, d: false }] }); render();
+      };
 
       $("#view").addEventListener("click", async (e) => {
         const b = e.target.closest("button");
@@ -761,37 +929,77 @@
         const d = b.dataset;
         if (d.progres) {
           const l = D.lomba.find((x) => x.id === d.id);
-          if (
-            l &&
-            l.progres !== d.progres &&
-            (await api({ action: "ubah", id: d.id, progres: d.progres }))
-          )
-            toast("Progres diperbarui");
+          if (l && l.progres !== d.progres && (await api({ action: "ubah", id: d.id, progres: d.progres }))) toast("Progres diperbarui");
         } else if (d.reg) {
-          if (
-            await api({ action: "ubah", id: d.id, registrasi: d.reg === "1" })
-          )
-            toast("Status registrasi diperbarui");
-        } else if (d.edit) {
-          buka(D.lomba.find((x) => x.id === d.edit));
-        } else if (d.del) {
+          if (await api({ action: "ubah", id: d.id, registrasi: d.reg === "1" })) toast("Status registrasi diperbarui");
+        } else if (d.edit) buka(D.lomba.find((x) => x.id === d.edit));
+        else if (d.del) {
           if (d.sure) {
-            if (await api({ action: "hapus", id: d.del }))
-              toast("Lomba dihapus");
-          } else {
-            d.sure = 1;
-            b.textContent = "Tekan lagi untuk hapus";
-            b.style.color = "var(--bad)";
-          }
-        }
+            if (await api({ action: "hapus", id: d.del })) { delete M[d.del]; store.set("niknos_meta", JSON.stringify(M)); toast("Lomba dihapus"); }
+          } else { d.sure = 1; b.textContent = "Tekan lagi untuk hapus"; b.style.color = "var(--bad)"; }
+        } else if (d.pin) { upM(d.pin, { pin: !mt(d.pin).pin }); render(); }
+        else if (d.ca) tambahCl(d.ca);
+        else if (d.cx) { const cl = [...(mt(d.id).cl || [])]; cl.splice(+d.cx, 1); upM(d.id, { cl }); render(); }
+        else if (d.tpl) { upM(d.tpl, { cl: TPL.map((t) => ({ t, d: false })) }); render(); }
+        else if (d.cal !== undefined) {
+          if (d.cal === "0") { const n = new Date(); cal = { y: n.getFullYear(), m: n.getMonth(), sel: kunci(n) }; }
+          else { const n = new Date(cal.y, cal.m + +d.cal, 1); cal.y = n.getFullYear(); cal.m = n.getMonth(); cal.sel = null; }
+          render();
+        } else if (d.day) { cal.sel = cal.sel === d.day ? null : d.day; render(); }
+      });
+      $("#view").addEventListener("change", (e) => {
+        const t = e.target;
+        if (t.dataset.ck === undefined) return;
+        const cl = (mt(t.dataset.id).cl || []).map((c, i) => (i === +t.dataset.ck ? { ...c, d: t.checked } : c));
+        upM(t.dataset.id, { cl }); render();
+      });
+      $("#view").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && e.target.dataset.ci) { e.preventDefault(); tambahCl(e.target.dataset.ci); }
       });
 
-      /* ---------- Mulai ---------- */
-      $("#me").innerHTML = D.anggota
-        .map((n) => `<option>${n}</option>`)
-        .join("");
-      if (D.anggota.includes(store.get("niknos_me")))
-        $("#me").value = store.get("niknos_me");
+      /* ---------- Alat bantu ---------- */
+      $("#bAlat").onclick = () => $("#dAlat").showModal();
+      $("#aTutup").onclick = () => $("#dAlat").close();
+      $("#aIcs").onclick = () => {
+        const ev = D.lomba.filter((l) => !isNaN(sisa(l.deadline))).map((l) => [
+          "BEGIN:VEVENT", `UID:${l.id}@lomba-tracker`, `DTSTAMP:${new Date().toISOString().replace(/[-:]|\.\d+/g, "")}`,
+          `SUMMARY:${ie("Deadline: " + l.nama)}`, `DTSTART;VALUE=DATE:${ymd(l.deadline)}`, `DTEND;VALUE=DATE:${esok(l.deadline)}`,
+          `DESCRIPTION:${ie((l.catatan || "") + " (" + l.progres + ")")}`,
+          "BEGIN:VALARM", "TRIGGER:-P3D", "ACTION:DISPLAY", "DESCRIPTION:Deadline 3 hari lagi", "END:VALARM",
+          "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", "DESCRIPTION:Deadline besok", "END:VALARM", "END:VEVENT"].join("\r\n"));
+        unduh("lomba-deadline.ics", ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Lomba Tracker//ID", ...ev, "END:VCALENDAR"].join("\r\n"), "text/calendar");
+        toast("File kalender diunduh");
+      };
+      $("#aRekap").onclick = async () => {
+        const t = `*Rekap Lomba* — ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}\n` +
+          D.lomba.filter((l) => !selesai(l)).sort(urut).map((l, i) => `${i + 1}. ${l.nama} — ${hitung(l)[1]} (${l.progres}${l.registrasi === "Sudah" ? "" : ", belum registrasi"}${mt(l.id).pj ? ", PJ " + mt(l.id).pj : ""})`).join("\n");
+        try { await navigator.clipboard.writeText(t); toast("Rekap disalin, tinggal tempel"); } catch { toast("Gagal menyalin. Izinkan akses clipboard."); }
+      };
+      $("#aNotif").onclick = async () => {
+        if (!("Notification" in window)) return toast("Browser tidak mendukung notifikasi");
+        const p = await Notification.requestPermission();
+        toast(p === "granted" ? "Pengingat aktif, muncul saat aplikasi dibuka" : "Izin notifikasi ditolak");
+        if (p === "granted") ingat();
+      };
+      $("#aBackup").onclick = () => unduh("lomba-tracker-backup.json", JSON.stringify({ meta: M }), "application/json");
+      $("#aRestore").onchange = async (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        try { const j = JSON.parse(await f.text()); if (!j.meta) throw 0; M = { ...M, ...j.meta }; store.set("niknos_meta", JSON.stringify(M)); render(); toast("Backup dipulihkan"); }
+        catch { toast("File backup tidak valid"); }
+        e.target.value = "";
+      };
+
+      /* ---------- Tema & mulai ---------- */
+      const tema = (t) => { document.documentElement.dataset.theme = t; store.set("niknos_tema", t); $("#bTema").textContent = t === "dark" ? "☀️" : "🌙"; };
+      tema(store.get("niknos_tema") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+      $("#bTema").onclick = () => tema(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+
+      const optKat = '<option value="">Tanpa kategori</option>' + KAT.map((k) => `<option>${k}</option>`).join("");
+      $("#fmKat").innerHTML = optKat;
+      $("#fKat").innerHTML = '<option value="">Semua kategori</option>' + KAT.map((k) => `<option>${k}</option>`).join("");
+      $("#me").innerHTML = D.anggota.map((n) => `<option>${n}</option>`).join("");
+      if (D.anggota.includes(store.get("niknos_me"))) $("#me").value = store.get("niknos_me");
       $("#me").onchange = () => store.set("niknos_me", me());
       render();
       api();
